@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: b557c2f55a3a60a4b8c54df696b0c7c5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_Sprite: {fileID: 21300000, guid: 666d96b060b10f74ea58f75c1ad09207, type: 3}
+  - m_InstancedGameObject: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
