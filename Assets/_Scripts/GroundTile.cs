@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "tile_", menuName = "Tiles/Scriptable Tile")]
-public class VariableTile : Tile
+[CreateAssetMenu(fileName = "GroundTile", menuName = "Scriptable Tiles/Ground Tile")]
+public class GroundTile : Tile
 {
     #region Fields
 
     public bool IsEmpty = true;
-    public int moveCost = 1;
+    public int MoveCost = 1;
 
     #endregion
 
