@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 // TODO: 2 KENARI KONTROL ETTIN. 6 KENARA TAMAMLA VE PATHFINDINGTEN DEVAM ET.
-public class NodeBase : VariableTile
+public class NodeBase : GroundTile
 {
     public Tile tile;
     public NodeBase Connection { get; private set; }
@@ -27,7 +27,7 @@ public class NodeBase : VariableTile
         if (map.HasTile(currentGridCoord))
         {
             NodeBase tempNeighbor = ScriptableObject.CreateInstance<NodeBase>();
-            tempNeighbor.tile = map.GetTile<VariableTile>(currentGridCoord);
+            tempNeighbor.tile = map.GetTile<GroundTile>(currentGridCoord);
             neighbors.Add(tempNeighbor);
         }
 
@@ -35,7 +35,7 @@ public class NodeBase : VariableTile
         if (map.HasTile(currentGridCoord))
         {
             NodeBase tempNeighbor = ScriptableObject.CreateInstance<NodeBase>();
-            tempNeighbor.tile = map.GetTile<VariableTile>(currentGridCoord);
+            tempNeighbor.tile = map.GetTile<GroundTile>(currentGridCoord);
             neighbors.Add(tempNeighbor);
         }
         

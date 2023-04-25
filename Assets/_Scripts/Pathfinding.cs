@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
 {
-    
+    /*
     public static List<NodeBase> FindPath(NodeBase startNode, NodeBase targetNode)
     {
         var toSearch = new List<NodeBase>() { startNode };
@@ -27,4 +27,5 @@ public class Pathfinding : MonoBehaviour
 
         }
     }
+    */
 }
