@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3Int _playerGridCoordinate;
 
     [SerializeField] private float _speed = 1f;
-    private bool _isMoving;
+    [SerializeField] private bool _isMoving;
     
     private void Awake()
     {
@@ -49,10 +49,10 @@ public class PlayerMovement : MonoBehaviour
         
         // Check for whether clicked position is a cell or not.
         _playerGridCoordinate = _tilemap.WorldToCell(transform.position);
-        _destinationGridCoordinate = _tilemap.WorldToCell(mousePosition);
-        if (_tilemap.HasTile(_destinationGridCoordinate))
-        {
-
+        if (!_isMoving && _tilemap.HasTile(_tilemap.WorldToCell(mousePosition)))
+        {        
+            _destinationGridCoordinate = _tilemap.WorldToCell(mousePosition);
+         
             if (_playerGridCoordinate != _destinationGridCoordinate)
             {
                 StartCoroutine(Move());
@@ -63,10 +63,7 @@ public class PlayerMovement : MonoBehaviour
     
 
     private IEnumerator Move()
-    {
-        //if (_tilemap.WorldToCell(transform.position) == _destinationGridCoordinate)
-          //  yield break;
-        
+    {   
         _playerWorldPosition = transform.position;
         _destinationWorldPosition = _tilemap.CellToWorld(_destinationGridCoordinate);
         Vector3 moveDirection;
