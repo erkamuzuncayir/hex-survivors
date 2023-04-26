@@ -1,16 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-/*
- * TODO: Şuan gidilecek noktanın tilemap koordinatını çıkartabiliyorum. Şimdi iki nokta arasındaki mesafeyi x ve y'de 
- * adımlara bölerek yani her adımda bir hexa gidecek şekilde hesaplamalıyım. 
- */
 public class PlayerMovement : MonoBehaviour
 
 {
@@ -26,7 +18,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _playerWorldPosition;
     private Vector3Int _playerGridCoordinate;
 
-    [SerializeField] private float _speed = 50f;
+    [SerializeField] private float _speed = 1f;
+    private bool _isMoving;
+    
     private void Awake()
     {
         _inputMouse = new InputMouse();
@@ -44,36 +38,39 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        _playerGridCoordinate = _tilemap.WorldToCell(transform.position);
-        _inputMouse.Mouse.MouseClick.performed += _ => MouseClick();
+        _inputMouse.Mouse.MouseClick.performed += _ => OnMouseClick();
     }
 
-    private void MouseClick()
+    private void OnMouseClick()
     {
+     
         Vector2 mousePosition = _inputMouse.Mouse.MousePosition.ReadValue<Vector2>();
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         
         // Check for whether clicked position is a cell or not.
+        _playerGridCoordinate = _tilemap.WorldToCell(transform.position);
         _destinationGridCoordinate = _tilemap.WorldToCell(mousePosition);
         if (_tilemap.HasTile(_destinationGridCoordinate))
         {
-            _playerWorldPosition = transform.position;
-            _destinationWorldPosition = _tilemap.CellToWorld(_destinationGridCoordinate);
 
-            if(_playerGridCoordinate != _destinationGridCoordinate)
-                Move();
+            if (_playerGridCoordinate != _destinationGridCoordinate)
+            {
+                StartCoroutine(Move());
+                _isMoving = true;
+            }
         }
     }
     
 
-    private void Move()
+    private IEnumerator Move()
     {
-        Vector3 moveDirection;
-        Debug.Log("player coordi: " + _playerWorldPosition);
-        Debug.Log("dest coordi: " + _destinationWorldPosition);
+        //if (_tilemap.WorldToCell(transform.position) == _destinationGridCoordinate)
+          //  yield break;
         
-        var position = transform.position;
-
+        _playerWorldPosition = transform.position;
+        _destinationWorldPosition = _tilemap.CellToWorld(_destinationGridCoordinate);
+        Vector3 moveDirection;
+        
 
         if (_playerWorldPosition.x > _destinationWorldPosition.x)
         {
@@ -83,8 +80,8 @@ public class PlayerMovement : MonoBehaviour
                 moveDirection = new Vector3(-HexHalfWidth, HexHalfHeight, 0);
             else
                 moveDirection = new Vector3(-(HexHalfWidth * 2), 0, 0);
-
-            StartCoroutine(ContinuousMove(transform.position, _playerWorldPosition + moveDirection, _speed));
+            
+            yield return ContinuousMove(transform.position, _playerWorldPosition + moveDirection, _speed);
 
         }
         else if (_playerWorldPosition.x < _destinationWorldPosition.x)
@@ -96,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             else
                 moveDirection = new Vector3(HexHalfWidth * 2, 0, 0);
 
-            StartCoroutine(ContinuousMove(transform.position, _playerWorldPosition + moveDirection, _speed));
+            yield return ContinuousMove(transform.position, _playerWorldPosition + moveDirection, _speed);
 
         }
         else if(Math.Abs(_playerWorldPosition.x - _destinationWorldPosition.x) < .05f)
@@ -106,8 +103,20 @@ public class PlayerMovement : MonoBehaviour
             else
                 moveDirection = new Vector3(HexHalfWidth, HexHalfHeight, 0);
             
-            StartCoroutine(ContinuousMove(transform.position, _playerWorldPosition + moveDirection, _speed));
+            yield return ContinuousMove(transform.position, _playerWorldPosition + moveDirection, _speed);
 
+        }
+        
+        _playerWorldPosition = transform.position;
+
+        if (Vector3.Distance(_playerWorldPosition, _destinationWorldPosition) < .05f)
+        {
+            _isMoving = false;
+        }
+        else
+        {
+            yield return null;
+            StartCoroutine(Move());
         }
     }
 
