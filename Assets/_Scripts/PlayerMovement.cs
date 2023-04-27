@@ -4,15 +4,12 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
-
 {
     private const float HexHalfHeight = 0.75f;
     private const float HexHalfWidth = 0.5f;
 
     [SerializeField] private Tilemap _tilemap;
-    
-    private InputMouse _inputMouse;
-    
+
     private Vector3Int _destinationGridCoordinate;
     private Vector3 _destinationWorldPosition;
     private Vector3 _playerWorldPosition;
@@ -21,32 +18,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed = 1f;
     [SerializeField] private bool _isMoving;
     
-    private void Awake()
+    public void OnMouseClick(Vector2 mousePosition)
     {
-        _inputMouse = new InputMouse();
-    }
-    
-    private void OnEnable()
-    {
-        _inputMouse.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputMouse.Disable();
-    }
-
-    private void Start()
-    {
-        _inputMouse.Mouse.MouseClick.performed += _ => OnMouseClick();
-    }
-
-    private void OnMouseClick()
-    {
-     
-        Vector2 mousePosition = _inputMouse.Mouse.MousePosition.ReadValue<Vector2>();
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        
         // Check for whether clicked position is a cell or not.
         _playerGridCoordinate = _tilemap.WorldToCell(transform.position);
         if (!_isMoving && _tilemap.HasTile(_tilemap.WorldToCell(mousePosition)))
@@ -61,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
-
     private IEnumerator Move()
     {   
         _playerWorldPosition = transform.position;
