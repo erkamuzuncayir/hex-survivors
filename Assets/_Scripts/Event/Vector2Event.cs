@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// This class inherits scriptable object to create customized event layer for project.
 /// </summary>
+[CreateAssetMenu(fileName = "Vector2 Event", menuName = "Events/Vector2 Event")]
 public class Vector2Event : DescriptionBaseSO
 {
     #region Fields
@@ -15,29 +16,30 @@ public class Vector2Event : DescriptionBaseSO
     #endregion
     
     #region API
-    [Button()]
-    public void Raise( Vector2 param )
+    public void Raise(Vector2 param)
     {
-        for ( int i = _eventListenerList.Count - 1; i >= 0; i-- )
-            _eventListenerList[ i ].OnEventRaised( param );
+        for (int i = _eventListenerList.Count - 1; i >= 0; i--)
+            _eventListenerList[i].OnEventRaised(param);
     }
-    [ ShowIf( "hasAnyDependent" ), Button( "Raise Self and Dependents" ) ]
-    public void RaiseSelfAndDependents( Vector2 param )
+    
+    [ShowIf("hasAnyDependent")]
+    public void RaiseSelfAndDependents(Vector2 param)
     {
-        Raise( param );
+        Raise(param);
 
-        if( hasAnyDependent && eventsDependOnThis != null )
-            for( var i = 0; i < eventsDependOnThis.Count; i++ )
-                eventsDependOnThis[ i ].Raise( param );
+        if(hasAnyDependent && eventsDependOnThis != null)
+            for(var i = 0; i < eventsDependOnThis.Count; i++)
+                eventsDependOnThis[i].Raise(param);
     }
-    public void RegisterListener( Vector2EventListener listener )
+    
+    public void RegisterListener(Vector2EventListener listener)
     { 
-        _eventListenerList.Add( listener ); 
+        _eventListenerList.Add(listener); 
     }
 
-    public void UnregisterListener( Vector2EventListener listener )
+    public void UnregisterListener(Vector2EventListener listener)
     { 
-        _eventListenerList.Remove( listener ); 
+        _eventListenerList.Remove(listener); 
     }
     #endregion
 

@@ -23,7 +23,7 @@ public class Vector3Event : DescriptionBaseSO
         for ( int i = _eventListenerList.Count - 1; i >= 0; i-- )
             _eventListenerList[ i ].OnEventRaised( param );
     }
-    [ ShowIf( "hasAnyDependent" ), Button( "Raise Self and Dependents" ) ]
+    [ShowIf("hasAnyDependent")]
     public void RaiseSelfAndDependents( Vector3 param )
     {
         Raise( param );
