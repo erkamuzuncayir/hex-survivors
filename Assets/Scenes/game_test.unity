@@ -814,6 +814,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1655902967}
   - component: {fileID: 1655902968}
+  - component: {fileID: 1655902969}
+  - component: {fileID: 1655902970}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -851,6 +853,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tilemap: {fileID: 133022313}
   _speed: 1
+  _isMoving: 0
+--- !u!114 &1655902969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655902966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77937e336922f3cf88933e25b4ab435c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerPositionAnnouncer: {fileID: 11400000, guid: 4233198286817746cb131186cc976a54, type: 2}
+--- !u!114 &1655902970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655902966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cba382621a1e164584fe7bf37eb170c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 4233198286817746cb131186cc976a54, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1655902968}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnMouseClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1967755647
 GameObject:
   m_ObjectHideFlags: 0
