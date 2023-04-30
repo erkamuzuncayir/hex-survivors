@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class RestartGame : MonoBehaviour
 {
 #region Fields
-    public Object reload_scene;
+    public UnityEngine.Object reload_scene;
 #endregion
 
 #region Implementation

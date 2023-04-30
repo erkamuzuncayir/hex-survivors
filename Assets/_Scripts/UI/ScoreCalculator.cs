@@ -3,10 +3,10 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class ScoreCalculator : MonoBehaviour
-{
+{/*
 #region Fields
     public TextMeshProUGUI  ui_text_score;
-    [FormerlySerializedAs("total_score_SO")] public SharedInt    total_score_SO;
+    [FormerlySerializedAs("total_score_SO")] public Int    total_score_SO;
 #endregion
 
 #region Unity API
@@ -24,4 +24,5 @@ public class ScoreCalculator : MonoBehaviour
         ui_text_score.text = $"Score: { total_score_SO.value }";
     }
 #endregion
+*/
 }

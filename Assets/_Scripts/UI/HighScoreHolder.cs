@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class HighScoreHolder : MonoBehaviour
-{
+{/*
 #region Field
     public TextMeshProUGUI  highScore_text;
-    public SharedInt    highScore;
-    [FormerlySerializedAs("total_score_SO")] public SharedInt    totalScoreScriptableObject;
+    public Int    highScore;
+    [FormerlySerializedAs("total_score_SO")] public Int    totalScoreScriptableObject;
 #endregion
 
 #region Unity API
@@ -27,5 +27,5 @@ public class HighScoreHolder : MonoBehaviour
 
         highScore_text.text = $"High Score: { highScore.value }";
     }
-#endregion
+#endregion*/
 }
