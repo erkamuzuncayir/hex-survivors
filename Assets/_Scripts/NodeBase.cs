@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 // TODO: 2 KENARI KONTROL ETTIN. 6 KENARA TAMAMLA VE PATHFINDINGTEN DEVAM ET.
 public class NodeBase : GroundTile
 {
+    /*
     public Tile tile;
     public NodeBase Connection { get; private set; }
     public float GValue { get; private set; }
@@ -41,6 +42,6 @@ public class NodeBase : GroundTile
         
         return neighbors;
     }
-    
+    */
 
 }
