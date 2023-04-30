@@ -23,7 +23,7 @@ public class PlayerController_Keyboard : MonoBehaviour
         var moveHorizontal = Input.GetAxis( "Horizontal" );
         var moveVertical = Input.GetAxis( "Vertical" );
         
-        Vector3 movement = new( moveHorizontal, 0.0f , moveVertical );
+        UnityEngine.Vector3 movement = new( moveHorizontal, 0.0f , moveVertical );
 
         player_rigidbody.AddForce( movement * speed.Value );
     }
