@@ -1,17 +1,16 @@
-﻿using System;
-using UnityEngine;
+using System;
 
 [Serializable]
-public class Vector3Reference
+public class IntReference
 {
 #region Fields
     public bool useConstant;
-    public Vector3 constantValue;
-    public SharedVector3 variable;
+    public int constantValue;
+    public IntSO variable;
 #endregion
 
 #region Implementations
-    public Vector3 Value =>
+    public int Value =>
         useConstant ? constantValue : 
             variable.value;
 

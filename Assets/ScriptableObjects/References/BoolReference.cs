@@ -7,7 +7,7 @@ public class BoolReference
 #region Fields
     public bool useConstant; 
     public bool constantValue;
-    public SharedBool variable;
+    public BoolSO variable;
 #endregion
 
 #region Implementations

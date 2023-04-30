@@ -6,7 +6,7 @@ public class FloatReference
 #region Fields
     public bool useConstant;
     public float constantValue;
-    public SharedFloat variable;
+    public FloatSO variable;
 #endregion
 
 #region Implementations
