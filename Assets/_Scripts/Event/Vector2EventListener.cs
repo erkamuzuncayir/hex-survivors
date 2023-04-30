@@ -9,7 +9,7 @@ public class Vector2EventListener : MonoBehaviour
 {
     #region Fields
     public Vector2Event gameEvent;
-    public UnityEvent<Vector2> response;
+    public UnityEvent<UnityEngine.Vector2> response;
     #endregion
 
     #region Unity API
@@ -25,7 +25,7 @@ public class Vector2EventListener : MonoBehaviour
     #endregion
 
     #region API
-    public void OnEventRaised( Vector2 param )
+    public void OnEventRaised( UnityEngine.Vector2 param )
     {
         response.Invoke( param );
     }
