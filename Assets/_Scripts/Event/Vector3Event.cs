@@ -18,13 +18,13 @@ public class Vector3Event : DescriptionBaseSO
     
     #region API
     [Button()]
-    public void Raise( Vector3 param )
+    public void Raise( UnityEngine.Vector3 param )
     {
         for ( int i = _eventListenerList.Count - 1; i >= 0; i-- )
             _eventListenerList[ i ].OnEventRaised( param );
     }
     [ShowIf("hasAnyDependent")]
-    public void RaiseSelfAndDependents( Vector3 param )
+    public void RaiseSelfAndDependents( UnityEngine.Vector3 param )
     {
         Raise( param );
 

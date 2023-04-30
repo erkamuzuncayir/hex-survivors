@@ -16,14 +16,14 @@ public class Vector2Event : DescriptionBaseSO
     #endregion
     
     #region API
-    public void Raise(Vector2 param)
+    public void Raise(UnityEngine.Vector2 param)
     {
         for (int i = _eventListenerList.Count - 1; i >= 0; i--)
             _eventListenerList[i].OnEventRaised(param);
     }
     
     [ShowIf("hasAnyDependent")]
-    public void RaiseSelfAndDependents(Vector2 param)
+    public void RaiseSelfAndDependents(UnityEngine.Vector2 param)
     {
         Raise(param);
 
