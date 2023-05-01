@@ -9,10 +9,10 @@ using UnityEngine.Tilemaps;
  * TİLELARI BİR DİCTİONARYE AT VE PAYLAŞ. BAŞKA TÜRLÜ OLMAZ.
  */
 [CreateAssetMenu (fileName = "PathfindingSystem")]
-public class PathfindingSystem : ScriptableObject
+public class PathfindingSystemSO : ScriptableObject
 {
     private Tilemap _tilemap;
-    public List<Vector3Int> FindNextMove(Tilemap tilemap, Vector3Int currentCoord, Vector3Int destinationCoord)
+    public List<Vector3Int> FindAllMoves(Tilemap tilemap, Vector3Int currentCoord, Vector3Int destinationCoord)
     {
         _tilemap = tilemap;
         List<Vector3Int> moves = new List<Vector3Int>();
@@ -103,5 +103,4 @@ public class PathfindingSystem : ScriptableObject
     {
         return _tilemap.HasTile(moveCoord) && _tilemap.GetTile<GroundTile>(moveCoord).IsWalkable;
     }
-    
 }

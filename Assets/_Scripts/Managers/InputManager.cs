@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField] private StateSO _gameState;
     [SerializeField] private Vector2Event _playerPositionAnnouncer;
     [SerializeField] private Vector2Event _destinationPositionAnnouncer;
     [SerializeField] private Vector3SO _playerPosition;
@@ -51,7 +52,6 @@ public class InputManager : MonoBehaviour
         else
         {
             _destinationPositionAnnouncer.Raise(mousePosition);
-            _playerPosition.value = mousePosition;
         }
     }
 

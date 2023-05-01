@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 
 public class TileManager : MonoBehaviour
 {
-    [SerializeField] private TileDictionary _tileDictionary;
+    [SerializeField] private TileDictionarySO _tileDictionary;
     [SerializeField] private Tilemap _tilemap;
     
     private void Awake()
