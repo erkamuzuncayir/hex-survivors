@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "Tile Dictionary")]
-public class TileDictionary : ScriptableObject
+public class TileDictionarySO : ScriptableObject
 {
     public List<TileData> Tiles = new List<TileData>();
 }
