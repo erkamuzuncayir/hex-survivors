@@ -8,15 +8,24 @@ using UnityEngine.Tilemaps;
 public class MovementSystemSO : ScriptableObject
 {
     [SerializeField] private PathfindingSystemSO _pathfindingSystem;
+    [SerializeField] private GameObjectRuntimeSet _player;
+    [SerializeField] private GameObjectRuntimeSet _enemies;
+    
     [SerializeField] private float _speed = 1f;
-
-    public IEnumerator Move(Tilemap tilemap, GameObject mover, Vector3Int destinationCoord, Action<bool> isCompleted = null)
+    private Tilemap _tilemap;
+    
+    public void Init(Tilemap tilemap)
+    {
+        _tilemap = tilemap;
+    }
+    
+    public IEnumerator Move(GameObject mover, Vector3Int destinationCoord, Action<bool> isCompleted = null)
     {
         List<Vector3Int> moves =
-            _pathfindingSystem.FindAllMoves(tilemap, tilemap.WorldToCell(mover.transform.position), destinationCoord);
+            _pathfindingSystem.FindAllMoves(_tilemap, _tilemap.WorldToCell(mover.transform.position), destinationCoord);
 
         foreach (var m in moves)
-            yield return ContinuousMove(mover, tilemap.CellToWorld(m));
+            yield return ContinuousMove(mover, _tilemap.CellToWorld(m));
 
         isCompleted(true);
     }
