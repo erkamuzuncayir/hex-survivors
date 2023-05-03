@@ -1,20 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-/*
- * Y'DE 2 GİTTİĞİMİZDE X'DE GİDECEĞİMİZ YOLU 1 AZALTIYORUZ.
- * TİLE'IN Y'Sİ 2'YE BÖLÜNEBİLİYORSA SOL ÜSTTEKİ TİLEIN X'İ BU TİLEIN X'NİN 1 AZI OLUYOR. AKSİ HALDE X'LERİ AYNI OLUYOR.
- * TİLELARI BİR DİCTİONARYE AT VE PAYLAŞ. BAŞKA TÜRLÜ OLMAZ.
- */
 [CreateAssetMenu (fileName = "PathfindingSystem")]
 public class PathfindingSystemSO : ScriptableObject
 {
     private Tilemap _tilemap;
-    public List<Vector3Int> FindAllMoves(Tilemap tilemap, Vector3Int currentCoord, Vector3Int destinationCoord)
+
+    public void Init(Tilemap tilemap)
     {
         _tilemap = tilemap;
+    }
+    
+    public List<Vector3Int> FindAllMoves(Vector3Int currentCoord, Vector3Int destinationCoord)
+    {
         List<Vector3Int> moves = new List<Vector3Int>();
         while (currentCoord != destinationCoord)
         {

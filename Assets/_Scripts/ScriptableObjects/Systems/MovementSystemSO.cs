@@ -11,18 +11,33 @@ public class MovementSystemSO : ScriptableObject
     [SerializeField] private GameObjectRuntimeSet _player;
     [SerializeField] private GameObjectRuntimeSet _enemies;
     
-    [SerializeField] private float _speed = 1f;
     private Tilemap _tilemap;
+    
+    [SerializeField] private float _speed = 1f;
     
     public void Init(Tilemap tilemap)
     {
         _tilemap = tilemap;
     }
     
-    public IEnumerator Move(GameObject mover, Vector3Int destinationCoord, Action<bool> isCompleted = null)
+    public IEnumerator MovePlayer(Vector3Int destinationCoord, Action<bool> isCompleted = null)
     {
+        GameObject player = _player.items[0];
         List<Vector3Int> moves =
-            _pathfindingSystem.FindAllMoves(_tilemap, _tilemap.WorldToCell(mover.transform.position), destinationCoord);
+            _pathfindingSystem.FindAllMoves(_tilemap.WorldToCell(player.transform.position), destinationCoord);
+
+        foreach (var m in moves)
+            yield return ContinuousMove(player, _tilemap.CellToWorld(m));
+        
+        isCompleted(true);
+    }
+    
+    public IEnumerator MoveEnemy(GameObject mover, Action<bool> isCompleted = null)
+    {
+        Vector3Int playerCoord = _tilemap.WorldToCell(_player.items[0].transform.position);
+        
+        List<Vector3Int> moves =
+            _pathfindingSystem.FindAllMoves(_tilemap.WorldToCell(mover.transform.position), playerCoord);
 
         foreach (var m in moves)
             yield return ContinuousMove(mover, _tilemap.CellToWorld(m));
