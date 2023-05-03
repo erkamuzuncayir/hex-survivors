@@ -274,6 +274,7 @@ MonoBehaviour:
   _gameState: {fileID: 11400000, guid: d5bdb68a94061a4268f39240a75f4fef, type: 2}
   _tilemap: {fileID: 133022313}
   _movementSystem: {fileID: 11400000, guid: 515bf508a55f3b7eda430bcf435ce49b, type: 2}
+  _pathfindingSystem: {fileID: 11400000, guid: f332ba4997dadbcc1b861e1e499df2fd, type: 2}
 --- !u!1 &967135127
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +413,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.6
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -476,7 +477,6 @@ MonoBehaviour:
   _tilemap: {fileID: 133022313}
   _enemyPrefabs:
   - {fileID: 4583332838009970306, guid: 9e686f5f97b65be49b6473e12df84d5c, type: 3}
-  - {fileID: 4583332838009970306, guid: f0e993cb169d88b4d9a578356e89df81, type: 3}
   _enemyRuntimeSet: {fileID: 11400000, guid: e218dc2defd8357438de5bf9144662be, type: 2}
   _playerPositionSO: {fileID: 11400000, guid: 97529f9b02df0f916939e0fce494e4cc, type: 2}
 --- !u!4 &1084072643
@@ -672,6 +672,7 @@ GameObject:
   - component: {fileID: 1655902968}
   - component: {fileID: 1655902970}
   - component: {fileID: 1655902973}
+  - component: {fileID: 1655902974}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -813,6 +814,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1655902974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655902966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 994885bbc8eaa6147b629368df3cd0aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameObjectRuntimeSet: {fileID: 11400000, guid: 1c1a3e6252c395a4eb8f9684625ee88a, type: 2}
 --- !u!1 &1967755647
 GameObject:
   m_ObjectHideFlags: 0
