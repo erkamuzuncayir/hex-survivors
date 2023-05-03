@@ -51,17 +51,4 @@ public class EnemyManager : MonoBehaviour
     {
         _gameState.GameState = StateSO.State.PlayerTurn;
     }
-
-    private Vector3 GetRandomPosition()
-    {
-        Vector3 randPos;
-
-        do
-        {
-            randPos = new Vector3(Random.Range(_playerPositionSO.value.x - 3, _playerPositionSO.value.x + 3),
-                Random.Range(_playerPositionSO.value.y - 3, _playerPositionSO.value.y + 3), 0);
-        } while (Vector3.Distance(randPos, _playerPositionSO.value) < 3);
-
-        return randPos;
-    }
 }
