@@ -62,15 +62,16 @@ public class SpawnManager : MonoBehaviour
     
     private Vector3 GetRandomPosition()
     {
-        Vector3 randPos;
-
+        Vector3Int randPos;
+        Vector3Int playerCoord = _tilemap.WorldToCell(_playerPositionSO.value);
+        
         do
         {
-            randPos = new Vector3(Random.Range(_playerPositionSO.value.x - 3, _playerPositionSO.value.x + 3),
-                Random.Range(_playerPositionSO.value.y - 3, _playerPositionSO.value.y + 3), 0);
-        } while ((Vector3.Distance(randPos, _playerPositionSO.value) < 3) &&
-                 _tilemap.HasTile(_tilemap.WorldToCell(randPos)));
+            randPos = new Vector3Int(Random.Range(playerCoord.x - 4, playerCoord.x + 5),
+                Random.Range(playerCoord.y - 4, playerCoord.y + 5), 0);
+        } while (Vector3.Distance(randPos, playerCoord) < 3 &&
+                 _tilemap.HasTile(randPos));
 
-        return randPos;
+        return _tilemap.CellToWorld(randPos);
     }
 }
