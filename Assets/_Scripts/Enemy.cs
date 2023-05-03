@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
             _destinationCoordinate = _tilemap.WorldToCell(playerPositionSO.value);
             if (_enemyCoordinate != _destinationCoordinate)
             {
-                StartCoroutine(_movementSystem.Move(gameObject, _destinationCoordinate,
+                StartCoroutine(_movementSystem.MoveEnemy(gameObject,
                     isOperationCompleted =>
                     {
                         if (isOperationCompleted)

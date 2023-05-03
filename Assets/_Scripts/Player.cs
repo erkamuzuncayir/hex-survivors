@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
          
             if (_playerCoordinate != _destinationCoordinate)
             {
-                StartCoroutine(_movementSystem.Move(gameObject, _destinationCoordinate,
+                StartCoroutine(_movementSystem.MovePlayer(_destinationCoordinate,
                     isOperationCompleted =>
                     {
                         if (isOperationCompleted)
