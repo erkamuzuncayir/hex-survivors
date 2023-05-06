@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField] private Tilemap _tilemap;
+    [SerializeField] private TileDictionarySO _tileDictionary;
+    [SerializeField] private GameObjectEvent _selectedGameObject;
     [SerializeField] private StateSO _gameState;
     [SerializeField] private Vector2Event _playerPositionAnnouncer;
     [SerializeField] private Vector2Event _destinationPositionAnnouncer;
@@ -13,6 +16,7 @@ public class InputManager : MonoBehaviour
     
     private InputMouse _inputMouse;
     private Camera _mainCamera;
+    private bool _isPlayerSelected = false;
     
     private void Awake()
     {
@@ -44,14 +48,35 @@ public class InputManager : MonoBehaviour
         
         // Turns screen space to world space
         mousePosition = _mainCamera.ScreenToWorldPoint(mousePosition);
-        if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+        Vector3Int targetCoord = _tilemap.WorldToCell(mousePosition);
+        
+        if (_gameState.GameState == StateSO.State.PlayerTurn)
         {
-            _playerPosition.value = mousePosition; 
-            _playerPositionAnnouncer.Raise(mousePosition);
-        }
-        else
-        {
-            _destinationPositionAnnouncer.Raise(mousePosition);
+            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                _selectedGameObject.Raise(hit.collider.gameObject);
+                _isPlayerSelected = true;
+                _playerPositionAnnouncer.Raise(mousePosition);
+            }
+            else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                // For clicking and investigating enemy attributes
+            }
+            else if(!(_tilemap.HasTile(targetCoord) && _tileDictionary.GetTileFromDictionary(targetCoord).IsMovable))
+            {
+                /*
+                 * If an enemy already selected return to non-selected situation.
+                 * if(enemySelected bla bla )
+                 */
+                if (_isPlayerSelected)
+                    _isPlayerSelected = false;
+            }
+            else if(_isPlayerSelected)
+            {
+                _destinationPositionAnnouncer.Raise(mousePosition);
+                _isPlayerSelected = false;
+                
+            }
         }
     }
 

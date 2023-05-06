@@ -153,8 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _deathAnnouncer: {fileID: 0}
   _movementSystem: {fileID: 11400000, guid: 515bf508a55f3b7eda430bcf435ce49b, type: 2}
-  _enemyRuntimeSet: {fileID: 11400000, guid: e218dc2defd8357438de5bf9144662be, type: 2}
-  _enemyScriptRuntimeSet: {fileID: 11400000, guid: ade46c86a565ccb41aecaf1dea75eb1b, type: 2}
+  _enemies: {fileID: 11400000, guid: e218dc2defd8357438de5bf9144662be, type: 2}
+  _enemyScripts: {fileID: 11400000, guid: ade46c86a565ccb41aecaf1dea75eb1b, type: 2}
   _tilemap: {fileID: 0}
   _moveRange: 0
   _attackRange: 0

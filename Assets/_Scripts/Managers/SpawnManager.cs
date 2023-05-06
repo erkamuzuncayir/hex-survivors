@@ -10,11 +10,13 @@ using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour
 {
-    private ObjectPool<GameObject> _enemyPool;
+    [SerializeField] private Vector3Event _movableAttributeChangeTilePos;
     [SerializeField] private Tilemap _tilemap;
+    [SerializeField] private TileDictionarySO _tileDictionary;
     [SerializeField] private GameObject[] _enemyPrefabs;
     [SerializeField] private GameObjectRuntimeSet _enemyRuntimeSet;
     [SerializeField] private Vector3SO _playerPositionSO;
+    private ObjectPool<GameObject> _enemyPool;
 
     private void Awake()
     {
@@ -24,16 +26,15 @@ public class SpawnManager : MonoBehaviour
             },
             enemy =>
             {
+                OnEnemySpawn(enemy);
                 // Check enemy count
                 //_enemyRuntimeSet.AddToList(enemy);
-                enemy.transform.position = GetRandomPosition();
-                enemy.gameObject.SetActive(true);
             },
             enemy =>
             {
                 // Check enemy count
                 //_enemyRuntimeSet.RemoveFromList(enemy);
-                enemy.gameObject.SetActive(false);
+                OnEnemyDeath(enemy);
             },
             enemy =>
             {
@@ -45,15 +46,18 @@ public class SpawnManager : MonoBehaviour
         );
     }
 
-    [Button()]
-    public void SpawnEnemy()
+    public void OnEnemySpawn(GameObject enemy)
     {
-        _enemyPool.Get();
+        enemy.transform.position = GetRandomPosition();
+        enemy.gameObject.SetActive(true);
+        _movableAttributeChangeTilePos.Raise(_tilemap.WorldToCell(enemy.transform.position));
     }
 
-    public void RemoveEnemy(GameObject deadEnemy)
+    public void OnEnemyDeath(GameObject enemy)
     {
-        _enemyPool.Release(deadEnemy);
+        enemy.gameObject.SetActive(false);
+        _movableAttributeChangeTilePos.Raise(_tilemap.WorldToCell(enemy.transform.position));
+        _enemyPool.Release(enemy);
     }
     private GameObject GetRandomEnemy()
     {

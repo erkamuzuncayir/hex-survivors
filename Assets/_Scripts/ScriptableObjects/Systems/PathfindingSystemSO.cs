@@ -1,105 +1,63 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu (fileName = "PathfindingSystem")]
 public class PathfindingSystemSO : ScriptableObject
 {
-    private Tilemap _tilemap;
+    [SerializeField] private GameObjectRuntimeSet _enemies;
 
-    public void Init(Tilemap tilemap)
+    public static List<HexTile> FindPath(HexTile startTile, HexTile targetTile)
     {
-        _tilemap = tilemap;
-    }
-    
-    public List<Vector3Int> FindAllMoves(Vector3Int currentCoord, Vector3Int destinationCoord)
-    {
-        List<Vector3Int> moves = new List<Vector3Int>();
-        while (currentCoord != destinationCoord)
+        List<HexTile> toSearch = new List<HexTile>() { startTile };
+        List<HexTile> processed = new List<HexTile>();
+        
+        while (toSearch.Any())
         {
-            Vector3Int move = new Vector3Int();
-            if (currentCoord.y % 2 == 0)
+            HexTile current = toSearch[0];
+            foreach (var t in toSearch)
             {
-                if (currentCoord.y > destinationCoord.y)
-                {
-                    if(IsMovePossible(currentCoord + move + new Vector3Int(0,-1,0)))
-                        move.y--;
-                    if (currentCoord.x > destinationCoord.x)
-                    {
-                        if(IsMovePossible(currentCoord + move + new Vector3Int(-1,0,0)))
-                            move.x--;
-                    }
-                }
-                else if(currentCoord.y < destinationCoord.y)
-                {
-                    if(IsMovePossible(currentCoord + move + new Vector3Int(0,1,0)))
-                        move.y++;
-                    if (currentCoord.x > destinationCoord.x)
-                    {
-                        if(IsMovePossible(currentCoord + move + new Vector3Int(-1,0,0))) 
-                            move.x--;
-                    }
-                }
-                else
-                {
-                    if (currentCoord.x > destinationCoord.x)
-                    {
-                        if(IsMovePossible(currentCoord + move + new Vector3Int(-1,0,0)))
-                            move.x--;
-                    }
-                    else
-                    {
-                        if(IsMovePossible(currentCoord + move + new Vector3Int(1,0,0)))
-                            move.x++;
-                    }
-                }
+                if (t.FValue < current.FValue || t.FValue == current.FValue && t.HValue < current.HValue)
+                    current = t;
             }
-            else
-            {
-                if (currentCoord.y > destinationCoord.y)
-                {
-                    if(IsMovePossible(currentCoord + move + new Vector3Int(0,-1,0)))
-                        move.y--;
-                    if (currentCoord.x < destinationCoord.x)
-                    {
-                        if(IsMovePossible(currentCoord + move + new Vector3Int(1,0,0)))
-                            move.x++;
-                    }
-                }
-                else if(currentCoord.y < destinationCoord.y)
-                {
-                    if(IsMovePossible(currentCoord + move + new Vector3Int(0,1,0)))
-                        move.y++;
-                    if (currentCoord.x < destinationCoord.x)
-                    {
-                        if(IsMovePossible(currentCoord + move + new Vector3Int(1,0,0)))
-                            move.x++;
-                    }
-                }
-                else
-                {
-                    if (currentCoord.x < destinationCoord.x)
-                    {
-                        if(IsMovePossible(currentCoord + move + new Vector3Int(1,0,0)))
-                            move.x++;
-                    }
-                    else
-                    {
-                        if(IsMovePossible(currentCoord + move + new Vector3Int(1,0,0)))
-                            move.x++;
-                    }
-                }
-            }
+            
+            processed.Add(current);
+            toSearch.Remove(current);
 
-            currentCoord += move;
-            moves.Add(currentCoord);
+            if (current == targetTile)
+            {
+                HexTile currentPathTile = targetTile;
+                List<HexTile> path = new List<HexTile>();
+                while (currentPathTile != startTile)
+                {
+                    path.Add(currentPathTile);
+                    currentPathTile = currentPathTile.Connection;
+                }
+
+                return path;
+            }
+            
+            foreach (var neighbor in current.Neighbors.Where(t => t.IsMovable && !processed.Contains(t)))
+            {
+                bool inSearch = toSearch.Contains(neighbor);
+
+                var costToNeighbor = current.GValue + current.GetDistance(neighbor);
+
+                if (!inSearch || costToNeighbor < neighbor.GValue)
+                {
+                    neighbor.SetGValue(costToNeighbor);
+                    neighbor.SetConnection(current);
+
+                    if (!inSearch)
+                    {
+                        neighbor.SetHValue(neighbor.GetDistance(targetTile));
+                        toSearch.Add(neighbor);
+                    }
+                }
+            }
         }
-
-        return moves;
-    }
-
-    private bool IsMovePossible(Vector3Int moveCoord)
-    {
-        return _tilemap.HasTile(moveCoord) && _tilemap.GetTile<GroundTile>(moveCoord).IsWalkable;
+        return null;
     }
 }

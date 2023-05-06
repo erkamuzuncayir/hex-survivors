@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 116282749}
   - component: {fileID: 116282748}
+  - component: {fileID: 116282750}
   m_Layer: 0
   m_Name: TileManager
   m_TagString: Untagged
@@ -169,6 +170,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &116282750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116282747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eff714b4ad096204f990887afac70551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 10df785a503a58b1b8315d37333922e6, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 116282748}
+        m_TargetAssemblyTypeName: TileManager, Assembly-CSharp
+        m_MethodName: RevertMovableAttribute
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &133022311 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 244447627860195932, guid: 32bb72d74cb558910b56aaf840ef5292, type: 3}
@@ -208,6 +237,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77937e336922f3cf88933e25b4ab435c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tilemap: {fileID: 133022313}
+  _tileDictionary: {fileID: 11400000, guid: 63efccade451c0941ad18f5d119cbb22, type: 2}
+  _selectedGameObject: {fileID: 11400000, guid: edb306b93b760e60789bf50160f4ec60, type: 2}
   _gameState: {fileID: 11400000, guid: d5bdb68a94061a4268f39240a75f4fef, type: 2}
   _playerPositionAnnouncer: {fileID: 11400000, guid: 4233198286817746cb131186cc976a54, type: 2}
   _destinationPositionAnnouncer: {fileID: 11400000, guid: 4e3ddf417e84cf35e89cf42c3d1484ec, type: 2}
@@ -474,7 +506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41bf2c0b09c5fc74fa6d62468e9f162a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movableAttributeChangeTilePos: {fileID: 11400000, guid: 10df785a503a58b1b8315d37333922e6, type: 2}
   _tilemap: {fileID: 133022313}
+  _tileDictionary: {fileID: 11400000, guid: 63efccade451c0941ad18f5d119cbb22, type: 2}
   _enemyPrefabs:
   - {fileID: 4583332838009970306, guid: 9e686f5f97b65be49b6473e12df84d5c, type: 3}
   _enemyRuntimeSet: {fileID: 11400000, guid: e218dc2defd8357438de5bf9144662be, type: 2}
@@ -512,7 +546,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1084072642}
         m_TargetAssemblyTypeName: SpawnManager, Assembly-CSharp
-        m_MethodName: RemoveEnemy
+        m_MethodName: OnEnemyDeath
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -533,7 +567,7 @@ GameObject:
   - component: {fileID: 1625651308}
   - component: {fileID: 1625651310}
   - component: {fileID: 1625651309}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayerVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -548,7 +582,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625651307}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -668,11 +702,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1655902967}
-  - component: {fileID: 1655902971}
+  - component: {fileID: 1655902976}
   - component: {fileID: 1655902968}
   - component: {fileID: 1655902970}
   - component: {fileID: 1655902973}
   - component: {fileID: 1655902974}
+  - component: {fileID: 1655902975}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -708,7 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18511430a11b1f047ba71671c44fb536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerRuntimeReference: {fileID: 11400000, guid: 1c1a3e6252c395a4eb8f9684625ee88a, type: 2}
+  _player: {fileID: 11400000, guid: 1c1a3e6252c395a4eb8f9684625ee88a, type: 2}
   _tilemap: {fileID: 133022313}
   _playerPositionSO: {fileID: 11400000, guid: 97529f9b02df0f916939e0fce494e4cc, type: 2}
   _gameState: {fileID: 11400000, guid: d5bdb68a94061a4268f39240a75f4fef, type: 2}
@@ -731,7 +766,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1655902968}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: OnMouseClick
+        m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -741,51 +776,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &1655902971
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1655902966}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.5}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &1655902973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,19 +791,7 @@ MonoBehaviour:
   gameEvent: {fileID: 11400000, guid: 9bc062d0d567c394aad2aeaf6874526a, type: 2}
   response:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1655902968}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: StateCheck
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1655902974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -827,6 +805,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameObjectRuntimeSet: {fileID: 11400000, guid: 1c1a3e6252c395a4eb8f9684625ee88a, type: 2}
+--- !u!114 &1655902975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655902966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 811014f271abbc64da74eb5068dbaf04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: edb306b93b760e60789bf50160f4ec60, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1655902968}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnPlayerSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!60 &1655902976
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655902966}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 1
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.004773259, y: 0.69451135}
+      - {x: -0.50237006, y: 0.42834848}
+      - {x: -0.500723, y: -0.06687492}
+      - {x: 0.0113298, y: -0.30400586}
+      - {x: 0.48561832, y: -0.072898686}
+      - {x: 0.49434674, y: 0.4322529}
+  m_UseDelaunayMesh: 0
 --- !u!1 &1967755647
 GameObject:
   m_ObjectHideFlags: 0

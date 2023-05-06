@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 912cd582132d9caf6b739a0717cb637b, type: 3}
   m_Name: MovementSystem
   m_EditorClassIdentifier: 
+  _tileDictionary: {fileID: 11400000, guid: 63efccade451c0941ad18f5d119cbb22, type: 2}
+  _movableAttributeChangeTilePos: {fileID: 11400000, guid: 10df785a503a58b1b8315d37333922e6, type: 2}
   _pathfindingSystem: {fileID: 11400000, guid: f332ba4997dadbcc1b861e1e499df2fd, type: 2}
   _player: {fileID: 11400000, guid: 1c1a3e6252c395a4eb8f9684625ee88a, type: 2}
   _enemies: {fileID: 11400000, guid: e218dc2defd8357438de5bf9144662be, type: 2}

@@ -15,6 +15,5 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _movementSystem.Init(_tilemap);
-        _pathfindingSystem.Init(_tilemap);
     }
 }

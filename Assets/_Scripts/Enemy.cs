@@ -1,17 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using NaughtyAttributes;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private GameObjectEvent _deathAnnouncer;
     [SerializeField] private MovementSystemSO _movementSystem;
-    [SerializeField] private GameObjectRuntimeSet _enemyRuntimeSet;
-    [SerializeField] private EnemyRuntimeSet _enemyScriptRuntimeSet;
+    [SerializeField] private GameObjectRuntimeSet _enemies;
+    [SerializeField] private EnemyRuntimeSet _enemyScripts;
     [SerializeField] private Tilemap _tilemap;
     
     private Vector3Int _destinationCoordinate;
@@ -27,14 +24,14 @@ public class Enemy : MonoBehaviour
     //ENEMYİ YARAT ARTIK. AKSİYONLARINI VE METHODLARINI EVENTLERİ FALAN
     private void OnEnable()
     {
-        _enemyScriptRuntimeSet.AddToList(this);
-        _enemyRuntimeSet.AddToList(gameObject);
+        _enemyScripts.AddToList(this);
+        _enemies.AddToList(gameObject);
     }
     
     private void OnDisable()
     {
-        _enemyScriptRuntimeSet.RemoveFromList(this);
-        _enemyRuntimeSet.RemoveFromList(gameObject);
+        _enemyScripts.RemoveFromList(this);
+        _enemies.RemoveFromList(gameObject);
     }
     
     public void OnEnemyTurn(Vector3SO playerPositionSO)
@@ -53,17 +50,17 @@ public class Enemy : MonoBehaviour
         if (!_isMoving)
         {        
             _destinationCoordinate = _tilemap.WorldToCell(playerPositionSO.value);
-            if (_enemyCoordinate != _destinationCoordinate)
-            {
-                StartCoroutine(_movementSystem.MoveEnemy(gameObject,
-                    isOperationCompleted =>
-                    {
-                        if (isOperationCompleted)
-                            _isMoving = false;
-                    }));
-                playerPositionSO.value = _tilemap.CellToWorld(_destinationCoordinate);
-                _isMoving = true;
-            }
+//            if (_enemyCoordinate != _destinationCoordinate)
+//            {
+//                StartCoroutine(_movementSystem.MoveEnemy(gameObject,
+//                    isOperationCompleted =>
+//                    {
+//                        if (isOperationCompleted)
+//                            _isMoving = false;
+//                    }));
+//                playerPositionSO.value = _tilemap.CellToWorld(_destinationCoordinate);
+//                _isMoving = true;
+//            }
         }
     }
 }
