@@ -1,23 +1,26 @@
-using System;
+using _Scripts.Actors;
+using _Scripts.Data.RuntimeSets;
+using _Scripts.Data.Type;
+using _Scripts.Systems;
 using UnityEngine;
-using UnityEngine.Pool;
-using Random = UnityEngine.Random;
 
-public class EnemyManager : MonoBehaviour
+namespace _Scripts.Managers
 {
-    [SerializeField] private StateSO _gameState;
-    [SerializeField] private GameObjectRuntimeSet _enemyRuntimeSet;
-    [SerializeField] private EnemyRuntimeSet _enemyScriptRuntimeSet;
-    [SerializeField] private Vector3SO _playerPositionSO;
-    private GameObject _instanceEnemy;
-    
-    private void Awake()
+    public class EnemyManager : MonoBehaviour
     {
-        _enemyRuntimeSet.Initialize();
+        [SerializeField] private GameStateSystemSO _gameStateSystem;
+        [SerializeField] private GameObjectRuntimeSet _enemyRuntimeSet;
+        [SerializeField] private EnemyRuntimeSet _enemyScriptRuntimeSet;
+        [SerializeField] private Vector3SO _playerPositionSO;
+        private GameObject _instanceEnemy;
+        private int count = 0;
+        
+        private void Awake()
+        {
+            _enemyRuntimeSet.Initialize();
+        }
 
-    }
-    
-    /*
+        /*
     public void DebugMe()
     {
         _enemyPool.Get();
@@ -28,27 +31,30 @@ public class EnemyManager : MonoBehaviour
         _enemyPool.Release(_instanceEnemy);
     }
     */
-    
-    public void StateCheck()
-    {
-        if(_gameState.GameState == StateSO.State.EnemyTurn)
-            OnEnemyTurn();
-        
-        // Spawn Enemy
-    }
 
-    public void OnEnemyTurn()
-    {
-        for (int i = 0; i < _enemyScriptRuntimeSet.items.Count; i++)
+        public void StateCheck()
         {
-            _enemyScriptRuntimeSet.items[i].OnEnemyTurn(_playerPositionSO);
+            if (_gameStateSystem.GameState == State.EnemyTurn)
+                OnEnemyTurn();
+
+            // Spawn Enemy
         }
 
-        AfterEnemyTurn();
-    }
+        public void OnEnemyTurn()
+        {
+            for (int i = 0; i < _enemyScriptRuntimeSet.Items.Count; i++)
+            {
+                _enemyScriptRuntimeSet.Items[i].OnEnemyTurn();
+            }
 
-    private void AfterEnemyTurn()
-    {
-        _gameState.GameState = StateSO.State.PlayerTurn;
+            AfterEnemyTurn();
+        }
+
+        private void AfterEnemyTurn()
+        {
+            count++;
+//            Debug.Log(count);
+            _gameStateSystem.Raise(State.PlayerTurn);
+        }
     }
 }

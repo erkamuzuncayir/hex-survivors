@@ -1,19 +1,21 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using _Scripts.Systems;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class GameManager : MonoBehaviour
+namespace _Scripts.Managers
 {
-    [SerializeField] private StateSO _gameState;
-    [SerializeField] private Tilemap _tilemap;
-    [SerializeField] private MovementSystemSO _movementSystem;
-    [SerializeField] private PathfindingSystemSO _pathfindingSystem;
-
-    
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        _movementSystem.Init(_tilemap);
+        [SerializeField] private GameStateSystemSO _gameStateSystem;
+        [SerializeField] private Tilemap _tilemap;
+        [SerializeField] private MovementSystemSO _movementSystem;
+        [SerializeField] private PathfindingSystemSO _pathfindingSystem;
+
+
+        private void Awake()
+        {
+            _gameStateSystem.GameState = State.PlayerTurn;
+            _movementSystem.Init(_tilemap);
+        }
     }
 }

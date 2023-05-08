@@ -182,12 +182,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eff714b4ad096204f990887afac70551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 10df785a503a58b1b8315d37333922e6, type: 2}
-  response:
+  GameEventSO: {fileID: 11400000, guid: 10df785a503a58b1b8315d37333922e6, type: 2}
+  Response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 116282748}
-        m_TargetAssemblyTypeName: TileManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: _Scripts.Managers.TileManager, Assembly-CSharp
         m_MethodName: RevertMovableAttribute
         m_Mode: 0
         m_Arguments:
@@ -240,7 +240,7 @@ MonoBehaviour:
   _tilemap: {fileID: 133022313}
   _tileDictionary: {fileID: 11400000, guid: 63efccade451c0941ad18f5d119cbb22, type: 2}
   _selectedGameObject: {fileID: 11400000, guid: edb306b93b760e60789bf50160f4ec60, type: 2}
-  _gameState: {fileID: 11400000, guid: d5bdb68a94061a4268f39240a75f4fef, type: 2}
+  _gameStateSystem: {fileID: 11400000, guid: 3a6a302f8f9ea324083c593e70b187a7, type: 2}
   _playerPositionAnnouncer: {fileID: 11400000, guid: 4233198286817746cb131186cc976a54, type: 2}
   _destinationPositionAnnouncer: {fileID: 11400000, guid: 4e3ddf417e84cf35e89cf42c3d1484ec, type: 2}
   _playerPosition: {fileID: 11400000, guid: 97529f9b02df0f916939e0fce494e4cc, type: 2}
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 327185eea96010e39804279af1bc6dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameState: {fileID: 11400000, guid: d5bdb68a94061a4268f39240a75f4fef, type: 2}
+  _gameStateSystem: {fileID: 11400000, guid: 3a6a302f8f9ea324083c593e70b187a7, type: 2}
   _tilemap: {fileID: 133022313}
   _movementSystem: {fileID: 11400000, guid: 515bf508a55f3b7eda430bcf435ce49b, type: 2}
   _pathfindingSystem: {fileID: 11400000, guid: f332ba4997dadbcc1b861e1e499df2fd, type: 2}
@@ -317,7 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 967135130}
   - component: {fileID: 967135129}
-  - component: {fileID: 967135128}
+  - component: {fileID: 967135131}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -325,34 +325,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &967135128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 967135127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 504e70943cff6104cb9822cde9bce8e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 9bc062d0d567c394aad2aeaf6874526a, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 967135129}
-        m_TargetAssemblyTypeName: EnemyManager, Assembly-CSharp
-        m_MethodName: StateCheck
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &967135129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,7 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48de968583d7a42448f5143bee0c7efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameState: {fileID: 11400000, guid: d5bdb68a94061a4268f39240a75f4fef, type: 2}
+  _gameStateSystem: {fileID: 11400000, guid: 3a6a302f8f9ea324083c593e70b187a7, type: 2}
   _enemyRuntimeSet: {fileID: 11400000, guid: e218dc2defd8357438de5bf9144662be, type: 2}
   _enemyScriptRuntimeSet: {fileID: 11400000, guid: ade46c86a565ccb41aecaf1dea75eb1b, type: 2}
   _playerPositionSO: {fileID: 11400000, guid: 97529f9b02df0f916939e0fce494e4cc, type: 2}
@@ -384,6 +356,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &967135131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967135127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6af61f89173fe67428bf1b7b28f5cfb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameStateSystem: {fileID: 11400000, guid: 3a6a302f8f9ea324083c593e70b187a7, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 967135129}
+        m_TargetAssemblyTypeName: _Scripts.Managers.EnemyManager, Assembly-CSharp
+        m_MethodName: OnEnemyTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1037198130
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,22 +540,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 811014f271abbc64da74eb5068dbaf04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 395437fc0b070de479e707257fece64f, type: 2}
-  response:
+  GameEventSO: {fileID: 11400000, guid: 395437fc0b070de479e707257fece64f, type: 2}
+  Response:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1084072642}
-        m_TargetAssemblyTypeName: SpawnManager, Assembly-CSharp
-        m_MethodName: OnEnemyDeath
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1625651307
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +674,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649617736}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.0882415, y: 0.26977414, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -705,7 +693,6 @@ GameObject:
   - component: {fileID: 1655902976}
   - component: {fileID: 1655902968}
   - component: {fileID: 1655902970}
-  - component: {fileID: 1655902973}
   - component: {fileID: 1655902974}
   - component: {fileID: 1655902975}
   m_Layer: 6
@@ -746,8 +733,13 @@ MonoBehaviour:
   _player: {fileID: 11400000, guid: 1c1a3e6252c395a4eb8f9684625ee88a, type: 2}
   _tilemap: {fileID: 133022313}
   _playerPositionSO: {fileID: 11400000, guid: 97529f9b02df0f916939e0fce494e4cc, type: 2}
-  _gameState: {fileID: 11400000, guid: d5bdb68a94061a4268f39240a75f4fef, type: 2}
+  _gameStateSystem: {fileID: 11400000, guid: 3a6a302f8f9ea324083c593e70b187a7, type: 2}
   _movementSystem: {fileID: 11400000, guid: 515bf508a55f3b7eda430bcf435ce49b, type: 2}
+  _moveRange: 0
+  _attackRange: 0
+  _damage: 0
+  _health: 0
+  _animatorController: {fileID: 9100000, guid: 18afdefd19508dae5bfbd2cbb852acb9, type: 2}
 --- !u!114 &1655902970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,12 +752,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cba382621a1e164584fe7bf37eb170c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 4e3ddf417e84cf35e89cf42c3d1484ec, type: 2}
-  response:
+  GameEventSO: {fileID: 11400000, guid: 4e3ddf417e84cf35e89cf42c3d1484ec, type: 2}
+  Response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1655902968}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_TargetAssemblyTypeName: _Scripts.Actors.Player, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -776,22 +768,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1655902973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1655902966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 504e70943cff6104cb9822cde9bce8e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 9bc062d0d567c394aad2aeaf6874526a, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1655902974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,12 +793,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 811014f271abbc64da74eb5068dbaf04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: edb306b93b760e60789bf50160f4ec60, type: 2}
-  response:
+  GameEventSO: {fileID: 11400000, guid: edb306b93b760e60789bf50160f4ec60, type: 2}
+  Response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1655902968}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_TargetAssemblyTypeName: _Scripts.Actors.Player, Assembly-CSharp
         m_MethodName: OnPlayerSelected
         m_Mode: 1
         m_Arguments:
