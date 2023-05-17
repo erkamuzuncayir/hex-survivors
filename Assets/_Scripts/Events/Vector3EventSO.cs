@@ -14,7 +14,6 @@ namespace _Scripts.Events
         public bool HasAnyDependent;
         [ShowIf("HasAnyDependent")] public List<Vector3EventSO> EventsDependOnThis;
 
-        [Button]
         public void Raise(Vector3 param)
         {
             for (var i = _eventListenerList.Count - 1; i >= 0; i--)
