@@ -1,5 +1,6 @@
 using _Scripts.Data.RuntimeSets;
 using _Scripts.Data.Type;
+using _Scripts.Events;
 using _Scripts.Systems;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace _Scripts.Actors
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] private VoidEventSO _playerTurnCompleteAnnouncer;
+        [SerializeField] private Vector3EventSO _movableAttributeChangeTilePos;
         [SerializeField] private GameObjectRuntimeSet _player;
         [SerializeField] private Tilemap _tilemap;
         [SerializeField] private Vector3SO _playerPositionSO;
@@ -30,7 +33,9 @@ namespace _Scripts.Actors
 
         private void Awake()
         {
-            _playerPositionSO.Value = transform.position;
+            Vector3 position = transform.position;
+            _playerPositionSO.Value = position;
+            _movableAttributeChangeTilePos.Raise(position);
         }
 
         public void OnPlayerSelected()
@@ -56,12 +61,13 @@ namespace _Scripts.Actors
                     isOperationCompleted =>
                     {
                         if (isOperationCompleted)
+                        {
                             _isMoving = false;
+                            AfterPlayerTurn();
+                        }
                     }));
                 _playerPositionSO.Value = _tilemap.CellToWorld(_destinationCoord);
             }
-
-            AfterPlayerTurn();
         }
 
         private bool IsMovePossible(Vector3Int destinationCoord)
