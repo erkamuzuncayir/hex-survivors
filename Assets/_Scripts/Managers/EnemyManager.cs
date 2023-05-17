@@ -32,16 +32,11 @@ namespace _Scripts.Managers
     }
     */
 
-        public void StateCheck()
+        public void OnEnemyTurn(State turn)
         {
-            if (_gameStateSystem.GameState == State.EnemyTurn)
-                OnEnemyTurn();
-
-            // Spawn Enemy
-        }
-
-        public void OnEnemyTurn()
-        {
+            if(turn != State.EnemyTurn)
+                return;
+            
             for (int i = 0; i < _enemyScriptRuntimeSet.Items.Count; i++)
             {
                 _enemyScriptRuntimeSet.Items[i].OnEnemyTurn();
@@ -53,7 +48,7 @@ namespace _Scripts.Managers
         private void AfterEnemyTurn()
         {
             count++;
-//            Debug.Log(count);
+            //Debug.Log(count);
             _gameStateSystem.Raise(State.PlayerTurn);
         }
     }
