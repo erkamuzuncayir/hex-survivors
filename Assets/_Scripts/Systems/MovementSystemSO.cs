@@ -30,8 +30,6 @@ namespace _Scripts.Systems
         {
             Vector3Int playerCoord = _tilemap.WorldToCell(_player.Items[0].transform.position);
 
-            
-            Debug.Log(_tileDictionary.GetTileFromDictionary(playerCoord).IsMovable);
             List<HexTile> tilePath = PathfindingSystemSO.FindPath(_tileDictionary.GetTileFromDictionary(playerCoord),
                 _tileDictionary.GetTileFromDictionary(destinationCoord));
             List<Vector3Int> moves = tilePath.Select(t => t.Coord).ToList();
@@ -42,15 +40,9 @@ namespace _Scripts.Systems
                 if (i == 0)
                 {
                     _movableAttributeChangeTilePos.Raise(playerCoord);
-                    _movableAttributeChangeTilePos.Raise(moves[0]);
                 }
                 else if(i == moves.Count - 1)
                 {
-                    _movableAttributeChangeTilePos.Raise(moves[i - 1]);
-                }
-                else
-                {
-                    _movableAttributeChangeTilePos.Raise(moves[i - 1]);
                     _movableAttributeChangeTilePos.Raise(moves[i]);
                 }
 
@@ -65,8 +57,6 @@ namespace _Scripts.Systems
         {
             Vector3Int playerCoord = _tilemap.WorldToCell(_player.Items[0].transform.position);
             Vector3Int moverCoord = _tilemap.WorldToCell(mover.transform.position);
-
-            Debug.Log(_tileDictionary.GetTileFromDictionary(moverCoord).IsMovable);
             
             
             List<HexTile> tilePath = PathfindingSystemSO.FindPath(_tileDictionary.GetTileFromDictionary(moverCoord),
