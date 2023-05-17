@@ -9,19 +9,14 @@ namespace _Scripts.Data.Collections
     public class TileDictionarySO : ScriptableObject
     {
         public List<HexTile> Tiles = new();
-
-        [Button]
-        public void DebugMe()
-        {
-            Debug.Log(Tiles[0].Coord);
-            foreach (HexTile VARIABLE in Tiles[0].Neighbors) Debug.Log(VARIABLE.Coord);
-        }
-
+        
         public HexTile GetTileFromDictionary(Vector3Int coord)
         {
-            foreach (HexTile t in Tiles)
-                if (t.Coord == coord)
-                    return t;
+            for (int i = 0; i < Tiles.Count; i++)
+            {
+                if (Tiles[i].Coord == coord)
+                    return Tiles[i];
+            }
 
             return null;
         }
