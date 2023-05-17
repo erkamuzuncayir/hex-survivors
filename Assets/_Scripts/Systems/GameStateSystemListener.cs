@@ -21,8 +21,7 @@ namespace _Scripts.Systems
         {
             GameStateSystem.UnregisterListener(this);
         }
-
-
+        
         public void OnEventRaised(State param)
         {
             Response.Invoke(param);
