@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace _Scripts.Data.Collections
 {
@@ -26,7 +27,7 @@ namespace _Scripts.Data.Collections
     public class HexTile
     {
         [NonSerialized] public List<HexTile> Neighbors;
-
+        
         public HexTile(Vector3Int coord, bool isMovable)
         {
             Coord = coord;

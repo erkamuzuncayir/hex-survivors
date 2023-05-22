@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Actors;
 using _Scripts.Data.Collections;
 using _Scripts.Data.RuntimeSets;
 using _Scripts.Events;
@@ -15,8 +16,8 @@ namespace _Scripts.Systems
     {
         [SerializeField] private TileDictionarySO _tileDictionary;
         [SerializeField] private Vector3EventSO _movableAttributeChangeTilePos;
-        [SerializeField] private GameObjectRuntimeSet _player;
-   
+        [SerializeField] private GameObjectRuntimeSet _playerRuntimeSet;
+        private Player _playerScript;
         private Tilemap _tilemap;
 
         [SerializeField] private float _speed = 1f;
@@ -26,61 +27,66 @@ namespace _Scripts.Systems
             _tilemap = tilemap;
         }
 
-        public IEnumerator MovePlayer(Vector3Int destinationCoord, Action<bool> isCompleted = null)
+        public IEnumerator MovePlayer(Vector3Int destinationCoord, int moveRange, Action<bool> isCompleted)
         {
-            Vector3Int playerCoord = _tilemap.WorldToCell(_player.Items[0].transform.position);
+            Vector3Int playerCoord = _tilemap.WorldToCell(_playerRuntimeSet.Items[0].transform.position);
 
-            List<HexTile> tilePath = PathfindingSystemSO.FindPath(_tileDictionary.GetTileFromDictionary(playerCoord),
-                _tileDictionary.GetTileFromDictionary(destinationCoord));
-            List<Vector3Int> moves = tilePath.Select(t => t.Coord).ToList();
-            moves.Reverse();
+            List<HexTile> tilePath = Pathfinding.FindPath(_tileDictionary.GetTileFromDictionary(playerCoord),
+                _tileDictionary.GetTileFromDictionary(destinationCoord), _playerRuntimeSet.Items[0].GetComponent<Player>().AttackRange);
 
-            for (int i = 0; i < moves.Count; i++)
+            List<Vector3Int> moves = new ();
+            for(int i = tilePath.Count - 1; i >= 0; i--)
+                moves.Add(tilePath[i].Coord);
+
+            int moveCount = (moveRange < moves.Count) ? moveRange : moves.Count;
+            
+            for (int i = 0; i < moveCount; i++)
             {
                 if (i == 0)
                 {
                     _movableAttributeChangeTilePos.Raise(playerCoord);
                 }
-                else if(i == moves.Count - 1)
+                else if(i == moveCount - 1)
                 {
                     _movableAttributeChangeTilePos.Raise(moves[i]);
                 }
 
-                yield return ContinuousMove(_player.Items[0], _tilemap.CellToWorld(moves[i]));
+                yield return ContinuousMove(_playerRuntimeSet.Items[0], _tilemap.CellToWorld(moves[i]));
             }
 
-            isCompleted?.Invoke(true);
+            isCompleted.Invoke(true);
         }
-
-
-        public IEnumerator MoveEnemy(GameObject mover, Action<bool> isCompleted = null)
+        
+        public IEnumerator MoveEnemy(GameObject mover, int moveRange, Action<bool> isCompleted)
         {
-            Vector3Int playerCoord = _tilemap.WorldToCell(_player.Items[0].transform.position);
+            Vector3Int playerCoord = _tilemap.WorldToCell(_playerRuntimeSet.Items[0].transform.position);
             Vector3Int moverCoord = _tilemap.WorldToCell(mover.transform.position);
             
             
-            List<HexTile> tilePath = PathfindingSystemSO.FindPath(_tileDictionary.GetTileFromDictionary(moverCoord),
-                _tileDictionary.GetTileFromDictionary(playerCoord));
-            List<Vector3Int> moves = tilePath.Select(t => t.Coord).ToList();
-            moves.Reverse();
+            List<HexTile> tilePath = Pathfinding.FindPath(_tileDictionary.GetTileFromDictionary(moverCoord),
+                _tileDictionary.GetTileFromDictionary(playerCoord), mover.GetComponent<Enemy>().AttackRange);
+            
+            List<Vector3Int> moves = new ();
+            for(int i = tilePath.Count - 1; i >= 0; i--)
+               moves.Add(tilePath[i].Coord);
+            
+            int moveCount = (moveRange < moves.Count) ? moveRange : moves.Count;
 
-            for (int i = 0; i < moves.Count; i++)
+            for (int i = 0; i < moveCount; i++)
             {
                 if (i == 0)
                 {
                     _movableAttributeChangeTilePos.Raise(moverCoord);
-                    _movableAttributeChangeTilePos.Raise(moves[0]);
                 }
-                else
+                else if(i == moveCount - 1)
                 {
-                    _movableAttributeChangeTilePos.Raise(moves[i - 1]);
                     _movableAttributeChangeTilePos.Raise(moves[i]);
                 }
 
                 yield return ContinuousMove(mover, _tilemap.CellToWorld(moves[i]));
             }
 
-            isCompleted?.Invoke(true);
+            isCompleted.Invoke(true);
         }
 
 

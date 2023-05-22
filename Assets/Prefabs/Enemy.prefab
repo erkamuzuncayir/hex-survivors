@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5919237522969600879}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6343866882156769937
 SpriteRenderer:
@@ -151,13 +151,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a96ff593cfe9c4e97439623ad5decd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tileDictionary: {fileID: 0}
   _deathAnnouncer: {fileID: 0}
+  _turnCompleteAnnouncer: {fileID: 11400000, guid: fcd60a305839dff4e8068b4994c3b262, type: 2}
   _movementSystem: {fileID: 11400000, guid: 515bf508a55f3b7eda430bcf435ce49b, type: 2}
   _enemies: {fileID: 11400000, guid: e218dc2defd8357438de5bf9144662be, type: 2}
   _enemyScripts: {fileID: 11400000, guid: ade46c86a565ccb41aecaf1dea75eb1b, type: 2}
-  _tilemap: {fileID: 0}
-  _moveRange: 0
-  _attackRange: 0
-  _damage: 0
-  _health: 0
+  _moveRange: 4
+  AttackRange: 2
+  _damage: 1
+  _health: 2
   _animatorController: {fileID: 0}

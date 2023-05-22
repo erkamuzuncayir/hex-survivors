@@ -13,7 +13,7 @@ namespace _Scripts.Managers
         [SerializeField] private EnemyRuntimeSet _enemyScriptRuntimeSet;
         [SerializeField] private Vector3SO _playerPositionSO;
         private GameObject _instanceEnemy;
-        private int count = 0;
+        private int _enemyIndex;
         
         private void Awake()
         {
@@ -36,19 +36,24 @@ namespace _Scripts.Managers
         {
             if(turn != State.EnemyTurn)
                 return;
-            
-            for (int i = 0; i < _enemyScriptRuntimeSet.Items.Count; i++)
-            {
-                _enemyScriptRuntimeSet.Items[i].OnEnemyTurn();
-            }
 
+            _enemyIndex = 0;
+            ProcessEnemyTurn();
             AfterEnemyTurn();
         }
 
+        public void ProcessEnemyTurn()
+        {
+            if (_enemyIndex == _enemyScriptRuntimeSet.Items.Count)
+            {
+                AfterEnemyTurn();
+                return;
+            }
+            _enemyScriptRuntimeSet.Items[_enemyIndex++].OnEnemyTurn();
+        }
+        
         private void AfterEnemyTurn()
         {
-            count++;
-            //Debug.Log(count);
             _gameStateSystem.Raise(State.PlayerTurn);
         }
     }

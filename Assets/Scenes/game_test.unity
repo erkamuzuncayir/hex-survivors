@@ -155,7 +155,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileDictionary: {fileID: 11400000, guid: 63efccade451c0941ad18f5d119cbb22, type: 2}
   _tilemap: {fileID: 133022313}
-  _player: {fileID: 11400000, guid: 1c1a3e6252c395a4eb8f9684625ee88a, type: 2}
 --- !u!4 &116282749
 Transform:
   m_ObjectHideFlags: 0
@@ -307,7 +306,6 @@ MonoBehaviour:
   _gameStateSystem: {fileID: 11400000, guid: 3a6a302f8f9ea324083c593e70b187a7, type: 2}
   _tilemap: {fileID: 133022313}
   _movementSystem: {fileID: 11400000, guid: 515bf508a55f3b7eda430bcf435ce49b, type: 2}
-  _pathfindingSystem: {fileID: 11400000, guid: f332ba4997dadbcc1b861e1e499df2fd, type: 2}
 --- !u!1 &967135127
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +317,7 @@ GameObject:
   - component: {fileID: 967135130}
   - component: {fileID: 967135129}
   - component: {fileID: 967135131}
+  - component: {fileID: 967135132}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -377,6 +376,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: _Scripts.Managers.EnemyManager, Assembly-CSharp
         m_MethodName: OnEnemyTurn
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &967135132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967135127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504e70943cff6104cb9822cde9bce8e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameEventSO: {fileID: 11400000, guid: fcd60a305839dff4e8068b4994c3b262, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 967135129}
+        m_TargetAssemblyTypeName: _Scripts.Managers.EnemyManager, Assembly-CSharp
+        m_MethodName: ProcessEnemyTurn
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -479,7 +506,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1084072643}
   - component: {fileID: 1084072642}
-  - component: {fileID: 1084072644}
   m_Layer: 0
   m_Name: SpawnManager
   m_TagString: Untagged
@@ -521,22 +547,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1084072644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084072641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 811014f271abbc64da74eb5068dbaf04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameEventSO: {fileID: 11400000, guid: 395437fc0b070de479e707257fece64f, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1625651307
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,10 +740,10 @@ MonoBehaviour:
   _playerPositionSO: {fileID: 11400000, guid: 97529f9b02df0f916939e0fce494e4cc, type: 2}
   _gameStateSystem: {fileID: 11400000, guid: 3a6a302f8f9ea324083c593e70b187a7, type: 2}
   _movementSystem: {fileID: 11400000, guid: 515bf508a55f3b7eda430bcf435ce49b, type: 2}
-  _moveRange: 0
-  _attackRange: 0
-  _damage: 0
-  _health: 0
+  _moveRange: 3
+  _attackRange: 2
+  _damage: 3
+  _health: 5
   _animatorController: {fileID: 9100000, guid: 18afdefd19508dae5bfbd2cbb852acb9, type: 2}
 --- !u!114 &1655902970
 MonoBehaviour:

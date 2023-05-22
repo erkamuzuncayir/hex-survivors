@@ -24,9 +24,11 @@ namespace _Scripts.Actors
         private bool _isMoving;
         private bool _isSelected;
 
+        
+        
         // TODO: Bu attributeleri scriptable objecte çevir. Ama enemyler için gerek yok.
-        [SerializeField] private int _moveRange;
-        [SerializeField] private int _attackRange;
+        [SerializeField] private int _moveRange = 3;
+        public int AttackRange;
         [SerializeField] private int _damage;
         [SerializeField] private int _health;
         [SerializeField] private AnimatorController _animatorController;
@@ -35,7 +37,7 @@ namespace _Scripts.Actors
         {
             Vector3 position = transform.position;
             _playerPositionSO.Value = position;
-            _movableAttributeChangeTilePos.Raise(position);
+            _movableAttributeChangeTilePos.Raise(_tilemap.WorldToCell(position));
         }
 
         public void OnPlayerSelected()
@@ -57,7 +59,7 @@ namespace _Scripts.Actors
             if (IsMovePossible(_destinationCoord))
             {
                 _isMoving = true;
-                StartCoroutine(_movementSystem.MovePlayer(_destinationCoord,
+                StartCoroutine(_movementSystem.MovePlayer(_destinationCoord, _moveRange,
                     isOperationCompleted =>
                     {
                         if (isOperationCompleted)
@@ -68,6 +70,7 @@ namespace _Scripts.Actors
                     }));
                 _playerPositionSO.Value = _tilemap.CellToWorld(_destinationCoord);
             }
+            
         }
 
         private bool IsMovePossible(Vector3Int destinationCoord)

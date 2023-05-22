@@ -1,3 +1,4 @@
+using _Scripts.Data.Collections;
 using _Scripts.Data.RuntimeSets;
 using _Scripts.Data.Type;
 using _Scripts.Events;
@@ -10,17 +11,18 @@ namespace _Scripts.Actors
 {
     public class Enemy : MonoBehaviour
     {
+        [SerializeField] private TileDictionarySO _tileDictionary;
         [SerializeField] private GameObjectEventSO _deathAnnouncer;
+        [SerializeField] private VoidEventSO _turnCompleteAnnouncer;
         [SerializeField] private MovementSystemSO _movementSystem;
         [SerializeField] private GameObjectRuntimeSet _enemies;
         [SerializeField] private EnemyRuntimeSet _enemyScripts;
-
         private Vector3Int _destinationCoordinate;
 
         private bool _isMoving;
 
-        [SerializeField] private int _moveRange;
-        [SerializeField] private int _attackRange;
+        [SerializeField] private int _moveRange = 2;
+        public int AttackRange;
         [SerializeField] private int _damage;
         [SerializeField] private int _health;
         [SerializeField] private AnimatorController _animatorController;
@@ -40,6 +42,7 @@ namespace _Scripts.Actors
 
         public void OnEnemyTurn()
         {
+            // TODO: If player isn't attack range.
             MoveAction();
         }
 
@@ -54,11 +57,14 @@ namespace _Scripts.Actors
             if (!_isMoving)
             {
                 _isMoving = true;
-                StartCoroutine(_movementSystem.MoveEnemy(gameObject,
+                StartCoroutine(_movementSystem.MoveEnemy(gameObject, _moveRange,
                     isOperationCompleted =>
                     {
                         if (isOperationCompleted)
+                        {
                             _isMoving = false;
+                            _turnCompleteAnnouncer.Raise();
+                        }
                     }));
             }
         }

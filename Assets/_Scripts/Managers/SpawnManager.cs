@@ -29,8 +29,6 @@ namespace _Scripts.Managers
                 10,
                 20
             );
-            
-            DebugMe();
         }
 
         [Button]

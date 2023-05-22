@@ -9,7 +9,6 @@ namespace _Scripts.Managers
         [SerializeField] private GameStateSystemSO _gameStateSystem;
         [SerializeField] private Tilemap _tilemap;
         [SerializeField] private MovementSystemSO _movementSystem;
-        [SerializeField] private PathfindingSystemSO _pathfindingSystem;
 
 
         private void Awake()
