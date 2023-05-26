@@ -40,19 +40,11 @@ namespace _Scripts.Systems
 
             int moveCount = (moveRange < moves.Count) ? moveRange : moves.Count;
             
+            _movableAttributeChangeTilePos.Raise(playerCoord);
+            _movableAttributeChangeTilePos.Raise(moves[moveCount-1]);
+            
             for (int i = 0; i < moveCount; i++)
-            {
-                if (i == 0)
-                {
-                    _movableAttributeChangeTilePos.Raise(playerCoord);
-                }
-                else if(i == moveCount - 1)
-                {
-                    _movableAttributeChangeTilePos.Raise(moves[i]);
-                }
-
                 yield return ContinuousMove(_playerRuntimeSet.Items[0], _tilemap.CellToWorld(moves[i]));
-            }
 
             isCompleted.Invoke(true);
         }
@@ -71,20 +63,12 @@ namespace _Scripts.Systems
                moves.Add(tilePath[i].Coord);
             
             int moveCount = (moveRange < moves.Count) ? moveRange : moves.Count;
+            
+            _movableAttributeChangeTilePos.Raise(moverCoord);
+            _movableAttributeChangeTilePos.Raise(moves[moveCount-1]);
 
             for (int i = 0; i < moveCount; i++)
-            {
-                if (i == 0)
-                {
-                    _movableAttributeChangeTilePos.Raise(moverCoord);
-                }
-                else if(i == moveCount - 1)
-                {
-                    _movableAttributeChangeTilePos.Raise(moves[i]);
-                }
-
                 yield return ContinuousMove(mover, _tilemap.CellToWorld(moves[i]));
-            }
 
             isCompleted.Invoke(true);
         }
