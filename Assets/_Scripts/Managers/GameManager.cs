@@ -11,7 +11,7 @@ namespace _Scripts.Managers
         [SerializeField] private MovementSystemSO _movementSystem;
 
 
-        private void Awake()
+        private void Start()
         {
             _gameStateSystem.GameState = State.PlayerTurn;
             _movementSystem.Init(_tilemap);
