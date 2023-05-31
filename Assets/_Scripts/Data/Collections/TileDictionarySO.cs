@@ -10,7 +10,12 @@ namespace _Scripts.Data.Collections
     public class TileDictionarySO : ScriptableObject
     {
         public List<HexTile> Tiles = new();
-        
+
+        private void OnEnable()
+        {
+            Tiles.Clear();
+        }
+
         public HexTile GetTileFromDictionary(Vector3Int coord)
         {
             for (int i = 0; i < Tiles.Count; i++)
