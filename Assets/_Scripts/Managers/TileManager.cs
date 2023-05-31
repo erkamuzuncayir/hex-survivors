@@ -10,10 +10,8 @@ namespace _Scripts.Managers
         [SerializeField] private TileDictionarySO _tileDictionary;
         [SerializeField] private Tilemap _tilemap;
 
-        private void Awake()
+        private void Start()
         {
-            _tileDictionary.Tiles.Clear();
-
             GetAllTiles();
             SetNeighbors();
         }
