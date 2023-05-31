@@ -317,7 +317,6 @@ GameObject:
   - component: {fileID: 967135130}
   - component: {fileID: 967135129}
   - component: {fileID: 967135131}
-  - component: {fileID: 967135132}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -338,9 +337,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStateSystem: {fileID: 11400000, guid: 3a6a302f8f9ea324083c593e70b187a7, type: 2}
+  _playerRuntimeSet: {fileID: 11400000, guid: 1c1a3e6252c395a4eb8f9684625ee88a, type: 2}
   _enemyRuntimeSet: {fileID: 11400000, guid: e218dc2defd8357438de5bf9144662be, type: 2}
   _enemyScriptRuntimeSet: {fileID: 11400000, guid: ade46c86a565ccb41aecaf1dea75eb1b, type: 2}
-  _playerPositionSO: {fileID: 11400000, guid: 97529f9b02df0f916939e0fce494e4cc, type: 2}
+  _playerCoord: {fileID: 11400000, guid: c95b85cf3085b544a8153f4a3764bb37, type: 2}
 --- !u!4 &967135130
 Transform:
   m_ObjectHideFlags: 0
@@ -376,34 +376,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: _Scripts.Managers.EnemyManager, Assembly-CSharp
         m_MethodName: OnEnemyTurn
         m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &967135132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 967135127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 504e70943cff6104cb9822cde9bce8e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameEventSO: {fileID: 11400000, guid: fcd60a305839dff4e8068b4994c3b262, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 967135129}
-        m_TargetAssemblyTypeName: _Scripts.Managers.EnemyManager, Assembly-CSharp
-        m_MethodName: ProcessEnemyTurn
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -532,6 +504,7 @@ MonoBehaviour:
   - {fileID: 4583332838009970306, guid: 9e686f5f97b65be49b6473e12df84d5c, type: 3}
   _enemyRuntimeSet: {fileID: 11400000, guid: e218dc2defd8357438de5bf9144662be, type: 2}
   _playerPositionSO: {fileID: 11400000, guid: 97529f9b02df0f916939e0fce494e4cc, type: 2}
+  _testSpawnCount: 5
 --- !u!4 &1084072643
 Transform:
   m_ObjectHideFlags: 0
@@ -713,7 +686,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1655902966}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -738,10 +711,11 @@ MonoBehaviour:
   _player: {fileID: 11400000, guid: 1c1a3e6252c395a4eb8f9684625ee88a, type: 2}
   _tilemap: {fileID: 133022313}
   _playerPositionSO: {fileID: 11400000, guid: 97529f9b02df0f916939e0fce494e4cc, type: 2}
+  _playerCoord: {fileID: 11400000, guid: c95b85cf3085b544a8153f4a3764bb37, type: 2}
   _gameStateSystem: {fileID: 11400000, guid: 3a6a302f8f9ea324083c593e70b187a7, type: 2}
   _movementSystem: {fileID: 11400000, guid: 515bf508a55f3b7eda430bcf435ce49b, type: 2}
   _moveRange: 3
-  _attackRange: 2
+  AttackRange: 0
   _damage: 3
   _health: 5
   _animatorController: {fileID: 9100000, guid: 18afdefd19508dae5bfbd2cbb852acb9, type: 2}
