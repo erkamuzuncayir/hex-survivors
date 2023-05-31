@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a96ff593cfe9c4e97439623ad5decd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tileDictionary: {fileID: 0}
+  _tileDictionary: {fileID: 11400000, guid: 63efccade451c0941ad18f5d119cbb22, type: 2}
   _deathAnnouncer: {fileID: 0}
   _turnCompleteAnnouncer: {fileID: 11400000, guid: fcd60a305839dff4e8068b4994c3b262, type: 2}
   _movementSystem: {fileID: 11400000, guid: 515bf508a55f3b7eda430bcf435ce49b, type: 2}
