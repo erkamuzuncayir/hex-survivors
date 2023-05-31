@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using _Scripts.Actors;
 using _Scripts.Data.Collections;
 using _Scripts.Data.RuntimeSets;
@@ -27,12 +28,12 @@ namespace _Scripts.Systems
             _tilemap = tilemap;
         }
 
-        public IEnumerator MovePlayer(Vector3Int destinationCoord, int moveRange, Action<bool> isCompleted)
+        public async Task<bool> MovePlayer(Vector3Int destinationCoord, int moveRange)
         {
             Vector3Int playerCoord = _tilemap.WorldToCell(_playerRuntimeSet.Items[0].transform.position);
 
             List<HexTile> tilePath = Pathfinding.FindPath(_tileDictionary.GetTileFromDictionary(playerCoord),
-                _tileDictionary.GetTileFromDictionary(destinationCoord), _playerRuntimeSet.Items[0].GetComponent<Player>().AttackRange);
+                _tileDictionary.GetTileFromDictionary(destinationCoord));
 
             List<Vector3Int> moves = new ();
             for(int i = tilePath.Count - 1; i >= 0; i--)
@@ -42,47 +43,56 @@ namespace _Scripts.Systems
             
             _movableAttributeChangeTilePos.Raise(playerCoord);
             _movableAttributeChangeTilePos.Raise(moves[moveCount-1]);
-            
-            for (int i = 0; i < moveCount; i++)
-                yield return ContinuousMove(_playerRuntimeSet.Items[0], _tilemap.CellToWorld(moves[i]));
 
-            isCompleted.Invoke(true);
+            for (int i = 0; i < moveCount; i++)
+            {
+               await ContinuousMove(_playerRuntimeSet.Items[0], _tilemap.CellToWorld(moves[i]));
+            }
+            
+            return true;
         }
         
-        public IEnumerator MoveEnemy(GameObject mover, int moveRange, Action<bool> isCompleted)
+        public async Task<bool> MoveEnemy(GameObject mover, int moveRange, Action<Vector3Int> newCoord)
         {
             Vector3Int playerCoord = _tilemap.WorldToCell(_playerRuntimeSet.Items[0].transform.position);
             Vector3Int moverCoord = _tilemap.WorldToCell(mover.transform.position);
             
             
             List<HexTile> tilePath = Pathfinding.FindPath(_tileDictionary.GetTileFromDictionary(moverCoord),
-                _tileDictionary.GetTileFromDictionary(playerCoord), mover.GetComponent<Enemy>().AttackRange);
+                _tileDictionary.GetTileFromDictionary(playerCoord));
             
             List<Vector3Int> moves = new ();
             for(int i = tilePath.Count - 1; i >= 0; i--)
                moves.Add(tilePath[i].Coord);
-            
-            int moveCount = (moveRange < moves.Count) ? moveRange : moves.Count;
-            
-            _movableAttributeChangeTilePos.Raise(moverCoord);
-            _movableAttributeChangeTilePos.Raise(moves[moveCount-1]);
 
-            for (int i = 0; i < moveCount; i++)
-                yield return ContinuousMove(mover, _tilemap.CellToWorld(moves[i]));
+            if (moves.Count > 0)
+            {
+                int moveCount = (moveRange < moves.Count) ? moveRange : moves.Count;
+                
+                _movableAttributeChangeTilePos.Raise(moverCoord);
+                _movableAttributeChangeTilePos.Raise(moves[moveCount-1]);
+                newCoord(moves[moveCount - 1]);
 
-            isCompleted.Invoke(true);
+                for (int i = 0; i < moveCount; i++)
+                    await ContinuousMove(mover, _tilemap.CellToWorld(moves[i]));
+            }
+
+            return true;
         }
-
-
-        private IEnumerator ContinuousMove(GameObject mover, Vector3 end)
+        
+        private async Task<bool> ContinuousMove(GameObject mover, Vector3 end)
         {
             float t = 0;
             while (t < 1)
             {
                 mover.transform.position = Vector3.MoveTowards(mover.transform.position, end, t);
                 t = t + Time.deltaTime / _speed;
-                yield return new WaitForEndOfFrame();
+                await Task.Yield();
             }
+
+            return true;
         }
+        
+        
     }
 }

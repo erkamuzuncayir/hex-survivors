@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using _Scripts.Data.Collections;
 using _Scripts.Data.RuntimeSets;
 using _Scripts.Data.Type;
@@ -21,13 +22,13 @@ namespace _Scripts.Actors
 
         private bool _isMoving;
 
+        public Vector3Int Coord { get; set; }
         [SerializeField] private int _moveRange = 2;
         public int AttackRange;
         [SerializeField] private int _damage;
         [SerializeField] private int _health;
         [SerializeField] private AnimatorController _animatorController;
-
-        //ENEMYİ YARAT ARTIK. AKSİYONLARINI VE METHODLARINI EVENTLERİ FALAN
+        
         private void OnEnable()
         {
             _enemyScripts.AddToList(this);
@@ -40,10 +41,15 @@ namespace _Scripts.Actors
             _enemies.RemoveFromList(gameObject);
         }
 
-        public void OnEnemyTurn()
+        public async Task OnEnemyTurn(Vector3Int playerCoord)
         {
+            
             // TODO: If player isn't attack range.
-            MoveAction();
+            if (_tileDictionary.GetTileFromDictionary(Coord).GetDistance(
+                    _tileDictionary.GetTileFromDictionary(playerCoord)) > AttackRange)
+            {
+                await MoveAction();
+            }
         }
 
         public void OnDeath()
@@ -51,22 +57,21 @@ namespace _Scripts.Actors
             _deathAnnouncer.Raise(gameObject);
         }
 
-        public void MoveAction()
+        public async Task MoveAction()
         {
             // Check for whether clicked position is a cell or not.
             if (!_isMoving)
             {
                 _isMoving = true;
-                StartCoroutine(_movementSystem.MoveEnemy(gameObject, _moveRange,
-                    isOperationCompleted =>
-                    {
-                        if (isOperationCompleted)
-                        {
-                            _isMoving = false;
-                            _turnCompleteAnnouncer.Raise();
-                        }
-                    }));
+                
+                await _movementSystem.MoveEnemy(gameObject, _moveRange, newCoord =>
+                {
+                    Coord = newCoord;
+                });
+                
+                _isMoving = false;
             }
         }
+        
     }
 }

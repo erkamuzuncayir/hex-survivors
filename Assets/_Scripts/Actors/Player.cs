@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using _Scripts.Data.RuntimeSets;
 using _Scripts.Data.Type;
 using _Scripts.Events;
@@ -15,18 +17,15 @@ namespace _Scripts.Actors
         [SerializeField] private GameObjectRuntimeSet _player;
         [SerializeField] private Tilemap _tilemap;
         [SerializeField] private Vector3SO _playerPositionSO;
+        [SerializeField] private Vector3IntSO _playerCoord;
         [SerializeField] private GameStateSystemSO _gameStateSystem;
         [SerializeField] private MovementSystemSO _movementSystem;
 
         private Vector3Int _destinationCoord;
-        private Vector3Int _playerCoordinate;
 
         private bool _isMoving;
         private bool _isSelected;
-
         
-        
-        // TODO: Bu attributeleri scriptable objecte çevir. Ama enemyler için gerek yok.
         [SerializeField] private int _moveRange = 3;
         public int AttackRange;
         [SerializeField] private int _damage;
@@ -37,7 +36,12 @@ namespace _Scripts.Actors
         {
             Vector3 position = transform.position;
             _playerPositionSO.Value = position;
-            _movableAttributeChangeTilePos.Raise(_tilemap.WorldToCell(position));
+            _playerCoord.Value = _tilemap.WorldToCell(position);
+        }
+
+        private void Start()
+        {
+            _movableAttributeChangeTilePos.Raise(_tilemap.WorldToCell(transform.position));
         }
 
         public void OnPlayerSelected()
@@ -45,32 +49,23 @@ namespace _Scripts.Actors
             _playerPositionSO.Value = transform.position;
         }
 
-        private void AfterPlayerTurn()
+        public async void OnMove(Vector2 mousePosition)
         {
-            _playerPositionSO.Value = transform.position;
-
-            _gameStateSystem.Raise(State.EnemyTurn);
-        }
-
-        public void OnMove(Vector2 mousePosition)
-        {
-            _playerCoordinate = _tilemap.WorldToCell(transform.position);
             _destinationCoord = _tilemap.WorldToCell(mousePosition);
             if (IsMovePossible(_destinationCoord))
             {
                 _isMoving = true;
-                StartCoroutine(_movementSystem.MovePlayer(_destinationCoord, _moveRange,
-                    isOperationCompleted =>
-                    {
-                        if (isOperationCompleted)
-                        {
-                            _isMoving = false;
-                            AfterPlayerTurn();
-                        }
-                    }));
-                _playerPositionSO.Value = _tilemap.CellToWorld(_destinationCoord);
+                await _movementSystem.MovePlayer(_destinationCoord, _moveRange);
             }
-            
+            _isMoving = false;
+            _playerCoord.Value = _destinationCoord;
+            AfterPlayerTurn();
+        }
+
+        private void AfterPlayerTurn()
+        {
+            _playerPositionSO.Value = transform.position;
+            _gameStateSystem.Raise(State.EnemyTurn);
         }
 
         private bool IsMovePossible(Vector3Int destinationCoord)
