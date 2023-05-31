@@ -1,16 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Scripts.Data.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Scripts.Systems
 {
     public static class Pathfinding
     {
-        public static List<HexTile> FindPath(HexTile startTile, HexTile targetTile, int attackRange)
+        public static List<HexTile> FindPath(HexTile startTile, HexTile targetTile)
         {
-            List<HexTile> path = SearchPath(startTile, targetTile, attackRange);
+            List<HexTile> path = SearchPath(startTile, targetTile);
          
             if (path == null)
             {
@@ -27,7 +26,7 @@ namespace _Scripts.Systems
                         alternativeTargets.AddRange(processedNeighbors[0].Neighbors);
                         processedNeighbors.RemoveAt(0);
                     }
-
+                    
                     HexTile nearestNeighbor = alternativeTargets[0];
                     for (int i = 1; i < alternativeTargets.Count; i++)
                     {
@@ -39,15 +38,14 @@ namespace _Scripts.Systems
                     toSearchNeighbors.Add(nearestNeighbor);
                     processedNeighbors.Add(nearestNeighbor);
                     alternativeTargets.Remove(nearestNeighbor);
-                    path = SearchPath(startTile, alternateTarget, attackRange);
+                    path = SearchPath(startTile, alternateTarget);
                 }
-
             }
             
             return path;
         }
 
-        private static List<HexTile> SearchPath(HexTile startTile, HexTile targetTile, int attackRange)
+        private static List<HexTile> SearchPath(HexTile startTile, HexTile targetTile)
         {
             List<HexTile> toSearch = new() { startTile };
             List<HexTile> processed = new();
@@ -89,11 +87,9 @@ namespace _Scripts.Systems
                         if (!inSearch)
                         {
                             neighbor.SetHValue(neighbor.GetDistance(targetTile));
-                            if (neighbor.HValue <= attackRange && neighbor.HValue < startTile.GetDistance(targetTile))
+                            /*
+                            if (neighbor.HValue < startTile.GetDistance(targetTile))
                             {
-                                Debug.Log(neighbor.Coord);
-                                Debug.Log(neighbor.HValue);
-                                Debug.Log(startTile.HValue);
                                 HexTile currentPathTile = neighbor;
                                 List<HexTile> path = new ();
                                 while (currentPathTile != startTile)
@@ -104,7 +100,7 @@ namespace _Scripts.Systems
 
                                 return path;
                             }
-
+*/
                             toSearch.Add(neighbor);
                         }
                     }
