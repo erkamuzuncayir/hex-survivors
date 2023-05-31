@@ -1,3 +1,4 @@
+using _Scripts.Actors;
 using _Scripts.Data.Collections;
 using _Scripts.Data.RuntimeSets;
 using _Scripts.Data.Type;
@@ -18,10 +19,10 @@ namespace _Scripts.Managers
         [SerializeField] private GameObjectRuntimeSet _enemyRuntimeSet;
         [SerializeField] private Vector3SO _playerPositionSO;
         private ObjectPool<GameObject> _enemyPool;
-
+        [SerializeField] private int _testSpawnCount;
         private void Awake()
         {
-            _enemyPool = new ObjectPool<GameObject>(() => { return Instantiate(GetRandomEnemy()); },
+            _enemyPool = new ObjectPool<GameObject>(() => Instantiate(GetRandomEnemy()),
                 OnEnemySpawn,
                 OnEnemyDeath,
                 enemy => { Destroy(enemy.gameObject); },
@@ -31,20 +32,25 @@ namespace _Scripts.Managers
             );
         }
 
-        [Button]
-        public void DebugMe()
+        public void Start()
         {
-            GameObject enemy = _enemyPool.Get();
+            for (int i = 0; i < _testSpawnCount; i++)
+            {
+                _enemyPool.Get();
+            }
         }
 
-        public void OnEnemySpawn(GameObject enemy)
+        private void OnEnemySpawn(GameObject enemy)
         {
-            enemy.transform.position = GetRandomPosition();
+            Vector3 enemyPosition = GetRandomPosition();
+            enemy.transform.position = enemyPosition;
+            Vector3Int enemyCoord = _tilemap.WorldToCell(enemyPosition);
+            enemy.gameObject.GetComponent<Enemy>().Coord = enemyCoord;
             enemy.gameObject.SetActive(true);
-            _movableAttributeChangeTilePos.Raise(_tilemap.WorldToCell(enemy.transform.position));
+            _movableAttributeChangeTilePos.Raise(enemyCoord);
         }
 
-        public void OnEnemyDeath(GameObject enemy)
+        private void OnEnemyDeath(GameObject enemy)
         {
             enemy.gameObject.SetActive(false);
             _movableAttributeChangeTilePos.Raise(_tilemap.WorldToCell(enemy.transform.position));
